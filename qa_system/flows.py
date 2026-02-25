@@ -74,9 +74,12 @@ Test matrix for each command/button/callback in each context:
 - Timeout handling
 
 Each error should assert:
-1. User-facing deterministic message.
-2. Internal structured log entry.
-3. Recovery hint or retry behavior.
+1. Stable deterministic `error_code` (e.g., `response.error_code`).
+2. User-facing deterministic message.
+3. Internal structured log entry.
+4. Recovery hint or retry behavior.
+
+Shared assertion helpers (for example `assertErrorStructure`) should validate `error_code` first, then message/log/recovery fields.
 """
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content, encoding="utf-8")

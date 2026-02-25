@@ -2,7 +2,7 @@
 
 This folder contains a deterministic, reproducible QA framework scaffold that covers:
 
-1. Self-bot architecture (Telegram + Discord user-account clients)
+1. Official bot-account architecture (Telegram Bot API + Discord bot integrations)
 2. Test runner architecture
 3. Scenario generator
 4. Command matrix generation from the codebase
@@ -34,4 +34,5 @@ python -m qa_system.main --repo-root . --output qa_artifacts --dry-run
 
 - The framework intentionally uses deterministic IDs and ordered scenario generation.
 - It does **not** require live Telegram/Discord credentials in `--dry-run` mode.
-- Connector stubs are included for integrating real user-account drivers.
+- Connector stubs are included for integrating official bot-account drivers.
+- If user-account automation is explored, treat it as experimental only in isolated test accounts due to platform policy risk.

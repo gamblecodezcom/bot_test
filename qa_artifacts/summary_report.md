@@ -1,7 +1,7 @@
 # QA Summary Report
 
 - Scenarios generated: **30**
-- Commands covered: **26**
+- Commands covered: **29**
 - Buttons/callbacks covered: **3**
 - Context coverage: Telegram DM/Group/Channel + Discord DM/Server
 - Role coverage: user/admin/new/returning/invalid/rate-limited

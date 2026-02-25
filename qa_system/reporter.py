@@ -35,6 +35,7 @@ def write_logs(output_dir: Path, scenarios: list[Scenario], dry_run: bool) -> No
 
 
 def write_summary(output_dir: Path, scenario_count: int, command_count: int, button_count: int) -> None:
+    output_dir.mkdir(parents=True, exist_ok=True)
     summary = f"""# QA Summary Report
 
 - Scenarios generated: **{scenario_count}**
@@ -53,6 +54,7 @@ Use `improvements.md` for UX and reliability recommendations.
 
 
 def write_improvements(output_dir: Path) -> None:
+    output_dir.mkdir(parents=True, exist_ok=True)
     content = """# Suggested Improvements
 
 1. Standardize all error messages with action hints.

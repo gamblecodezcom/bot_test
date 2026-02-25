@@ -1,8 +1,8 @@
 {
-  "repo_root": "/workspace/bot_test",
-  "output": "/workspace/bot_test/qa_artifacts",
-  "dry_run": true,
-  "commands": 26,
   "buttons": 3,
+  "commands": 29,
+  "dry_run": true,
+  "output": "qa_artifacts",
+  "repo_root": ".",
   "scenarios": 30
 }

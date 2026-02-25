@@ -26,12 +26,20 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def _as_repo_relative(path: Path, repo_root: Path) -> str:
+    try:
+        rel = path.resolve().relative_to(repo_root.resolve())
+        return "." if str(rel) == "." else rel.as_posix()
+    except ValueError:
+        return path.as_posix()
+
+
 def run(config: QAConfig) -> dict:
     output = config.output_dir
     output.mkdir(parents=True, exist_ok=True)
 
-    commands = discover_commands(config.repo_root)
-    buttons = discover_buttons(config.repo_root)
+    commands = sorted(discover_commands(config.repo_root))
+    buttons = sorted(discover_buttons(config.repo_root))
 
     command_rows = build_command_matrix(commands)
     button_rows = build_button_matrix(buttons)
@@ -49,14 +57,14 @@ def run(config: QAConfig) -> dict:
     write_improvements(output)
 
     meta = {
-        "repo_root": str(config.repo_root),
-        "output": str(output),
+        "repo_root": _as_repo_relative(config.repo_root, config.repo_root),
+        "output": _as_repo_relative(output, config.repo_root),
         "dry_run": config.dry_run,
         "commands": len(commands),
         "buttons": len(buttons),
         "scenarios": len(scenarios),
     }
-    (output / "run_meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
+    (output / "run_meta.json").write_text(json.dumps(meta, indent=2, sort_keys=True), encoding="utf-8")
     return meta
 
 
@@ -64,7 +72,7 @@ def main() -> None:
     args = parse_args()
     config = QAConfig.from_args(repo_root=args.repo_root, output_dir=args.output, dry_run=args.dry_run)
     meta = run(config)
-    print(json.dumps(meta, indent=2))
+    print(json.dumps(meta, indent=2, sort_keys=True))
 
 
 if __name__ == "__main__":

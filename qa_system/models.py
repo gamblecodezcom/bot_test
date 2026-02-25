@@ -41,8 +41,8 @@ class Scenario:
     platform: Literal["telegram", "discord"]
     context: Context
     role: Role
-    steps: list[str]
-    expected: list[str]
+    steps: tuple[str, ...]
+    expected: tuple[str, ...]
 
     def to_dict(self) -> dict:
         return asdict(self)

@@ -7,7 +7,7 @@ from pathlib import Path
 from .models import ButtonCase, CommandCase
 
 _COMMAND_PATTERNS = [
-    re.compile(r"/(\w+)") ,
+    re.compile(r"/([A-Za-z0-9_-]+)"),
     re.compile(r"\bslash\s*[:=]\s*[\"']([^\"']+)[\"']", re.IGNORECASE),
     re.compile(r"\bcommand\s*[:=]\s*[\"']([^\"']+)[\"']", re.IGNORECASE),
 ]
@@ -32,7 +32,7 @@ def _iter_source_files(repo_root: Path):
 def discover_commands(repo_root: Path) -> list[str]:
     found: set[str] = set()
     for file in _iter_source_files(repo_root):
-        text = file.read_text(errors="ignore")
+        text = file.read_text(encoding="utf-8", errors="ignore")
         for pattern in _COMMAND_PATTERNS:
             for match in pattern.findall(text):
                 cmd = match if isinstance(match, str) else match[0]
@@ -47,7 +47,7 @@ def discover_commands(repo_root: Path) -> list[str]:
 def discover_buttons(repo_root: Path) -> list[str]:
     found: set[str] = set()
     for file in _iter_source_files(repo_root):
-        text = file.read_text(errors="ignore")
+        text = file.read_text(encoding="utf-8", errors="ignore")
         for pattern in _BUTTON_PATTERNS:
             for match in pattern.findall(text):
                 token = match if isinstance(match, str) else match[0]
