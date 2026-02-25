@@ -1,0 +1,17 @@
+# Python cache/build
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Local virtual environments
+.venv/
+venv/
+
+# Editor/OS
+.DS_Store
+.vscode/
+.idea/
+
+# Generated QA runtime output
+qa_artifacts/
