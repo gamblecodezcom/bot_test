@@ -1,4 +1,6 @@
 {
+  "ai_model": "gpt-4.1-mini",
+  "ai_provider": "openai",
   "buttons": 3,
   "commands": 3,
   "dry_run": true,

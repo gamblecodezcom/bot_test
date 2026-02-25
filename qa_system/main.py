@@ -14,6 +14,7 @@ from .matrix_generator import (
     write_button_matrix,
     write_command_matrix,
 )
+from .providers import resolve_provider
 from .reporter import write_improvements, write_logs, write_summary
 from .scenarios import generate_scenarios
 
@@ -23,6 +24,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--repo-root", default=".", help="Repository root to analyze")
     parser.add_argument("--output", default="qa_artifacts", help="Output directory for QA artifacts")
     parser.add_argument("--dry-run", action="store_true", help="Generate artifacts without executing platform connectors")
+    parser.add_argument("--ai-provider", default="openai", help="AI provider: openai|anthropic|groq|openrouter")
+    parser.add_argument("--ai-model", default=None, help="Optional model override")
     return parser.parse_args()
 
 
@@ -42,7 +45,7 @@ def _atomic_write_json(path: Path, payload: object) -> None:
     tmp.replace(path)
 
 
-def run(config: QAConfig) -> dict:
+def run(config: QAConfig, ai_provider: str = "openai", ai_model: str | None = None) -> dict:
     output = config.output_dir
     output.mkdir(parents=True, exist_ok=True)
 
@@ -64,6 +67,16 @@ def run(config: QAConfig) -> dict:
     write_summary(output, len(scenarios), len(commands), len(buttons))
     write_improvements(output)
 
+    provider_cfg = resolve_provider(ai_provider, ai_model)
+    _atomic_write_json(
+        output / "ai_reasoning_config.json",
+        {
+            "provider": provider_cfg.provider,
+            "model": provider_cfg.model,
+            "api_key_env": provider_cfg.api_key_env,
+        },
+    )
+
     meta = {
         "repo_root": _as_repo_relative(config.repo_root, config.repo_root),
         "output": _as_repo_relative(output, config.repo_root),
@@ -71,6 +84,8 @@ def run(config: QAConfig) -> dict:
         "commands": len(commands),
         "buttons": len(buttons),
         "scenarios": len(scenarios),
+        "ai_provider": provider_cfg.provider,
+        "ai_model": provider_cfg.model,
     }
     _atomic_write_json(output / "run_meta.json", meta)
     return meta
@@ -79,7 +94,7 @@ def run(config: QAConfig) -> dict:
 def main() -> None:
     args = parse_args()
     config = QAConfig.from_args(repo_root=args.repo_root, output_dir=args.output, dry_run=args.dry_run)
-    meta = run(config)
+    meta = run(config, ai_provider=args.ai_provider, ai_model=args.ai_model)
     print(json.dumps(meta, indent=2, sort_keys=True))
 
 

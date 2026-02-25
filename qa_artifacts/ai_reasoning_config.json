@@ -1,0 +1,5 @@
+{
+  "api_key_env": "OPENAI_API_KEY",
+  "model": "gpt-4.1-mini",
+  "provider": "openai"
+}
