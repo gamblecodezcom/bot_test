@@ -1,0 +1,52 @@
+[
+  {
+    "scenario_id": "SCN-0005",
+    "reason": "Negative-path validation target",
+    "expected_behavior": "Explicit error + recovery guidance"
+  },
+  {
+    "scenario_id": "SCN-0006",
+    "reason": "Negative-path validation target",
+    "expected_behavior": "Explicit error + recovery guidance"
+  },
+  {
+    "scenario_id": "SCN-0011",
+    "reason": "Negative-path validation target",
+    "expected_behavior": "Explicit error + recovery guidance"
+  },
+  {
+    "scenario_id": "SCN-0012",
+    "reason": "Negative-path validation target",
+    "expected_behavior": "Explicit error + recovery guidance"
+  },
+  {
+    "scenario_id": "SCN-0017",
+    "reason": "Negative-path validation target",
+    "expected_behavior": "Explicit error + recovery guidance"
+  },
+  {
+    "scenario_id": "SCN-0018",
+    "reason": "Negative-path validation target",
+    "expected_behavior": "Explicit error + recovery guidance"
+  },
+  {
+    "scenario_id": "SCN-0023",
+    "reason": "Negative-path validation target",
+    "expected_behavior": "Explicit error + recovery guidance"
+  },
+  {
+    "scenario_id": "SCN-0024",
+    "reason": "Negative-path validation target",
+    "expected_behavior": "Explicit error + recovery guidance"
+  },
+  {
+    "scenario_id": "SCN-0029",
+    "reason": "Negative-path validation target",
+    "expected_behavior": "Explicit error + recovery guidance"
+  },
+  {
+    "scenario_id": "SCN-0030",
+    "reason": "Negative-path validation target",
+    "expected_behavior": "Explicit error + recovery guidance"
+  }
+]

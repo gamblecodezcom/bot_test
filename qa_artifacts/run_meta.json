@@ -1,0 +1,8 @@
+{
+  "buttons": 3,
+  "commands": 29,
+  "dry_run": true,
+  "output": "qa_artifacts",
+  "repo_root": ".",
+  "scenarios": 30
+}
