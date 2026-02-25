@@ -6,6 +6,22 @@ from pathlib import Path
 from .models import Scenario
 
 
+def _atomic_write_json(path: Path, payload: object) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    with tmp.open("w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=2)
+    tmp.replace(path)
+
+
+def _error_type_for_role(role: str) -> str:
+    if role == "invalid_user":
+        return "invalid_user_state"
+    if role == "rate_limited_user":
+        return "rate_limit"
+    return "none"
+
+
 def write_logs(output_dir: Path, scenarios: list[Scenario], dry_run: bool) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -25,13 +41,17 @@ def write_logs(output_dir: Path, scenarios: list[Scenario], dry_run: bool) -> No
             failure_log.append(
                 {
                     "scenario_id": scn.scenario_id,
+                    "platform": scn.platform,
+                    "context": scn.context,
+                    "role": scn.role,
+                    "error_type": _error_type_for_role(scn.role),
                     "reason": "Negative-path validation target",
                     "expected_behavior": "Explicit error + recovery guidance",
                 }
             )
 
-    (output_dir / "test_log.json").write_text(json.dumps(test_log, indent=2), encoding="utf-8")
-    (output_dir / "failure_log.json").write_text(json.dumps(failure_log, indent=2), encoding="utf-8")
+    _atomic_write_json(output_dir / "test_log.json", test_log)
+    _atomic_write_json(output_dir / "failure_log.json", failure_log)
 
 
 def write_summary(output_dir: Path, scenario_count: int, command_count: int, button_count: int) -> None:

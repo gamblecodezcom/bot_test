@@ -11,12 +11,21 @@ This folder contains a deterministic, reproducible QA framework scaffold that co
 7. Admin flow map
 8. Error flow map
 9. Logs + reports (JSON + Markdown)
+10. AI provider profile output (`ai_reasoning_config.json`)
 
 ## Quick start
 
 ```bash
-python -m qa_system.main --repo-root . --output qa_artifacts --dry-run
+python -m qa_system.main --repo-root . --output qa_artifacts --dry-run --ai-provider openai
 ```
+
+`--ai-provider` options:
+- `openai`
+- `anthropic`
+- `groq`
+- `openrouter`
+
+Use `--ai-model` to override defaults.
 
 ## Output artifacts
 
@@ -29,6 +38,8 @@ python -m qa_system.main --repo-root . --output qa_artifacts --dry-run
 - `failure_log.json`
 - `summary_report.md`
 - `improvements.md`
+- `run_meta.json`
+- `ai_reasoning_config.json`
 
 ## Notes
 
