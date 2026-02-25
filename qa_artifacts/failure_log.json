@@ -1,0 +1,92 @@
+[
+  {
+    "scenario_id": "SCN-0005",
+    "platform": "telegram",
+    "context": "telegram_dm",
+    "role": "invalid_user",
+    "error_type": "invalid_user_state",
+    "reason": "Negative-path validation target",
+    "expected_behavior": "Explicit error + recovery guidance"
+  },
+  {
+    "scenario_id": "SCN-0006",
+    "platform": "telegram",
+    "context": "telegram_dm",
+    "role": "rate_limited_user",
+    "error_type": "rate_limit",
+    "reason": "Negative-path validation target",
+    "expected_behavior": "Explicit error + recovery guidance"
+  },
+  {
+    "scenario_id": "SCN-0011",
+    "platform": "telegram",
+    "context": "telegram_group",
+    "role": "invalid_user",
+    "error_type": "invalid_user_state",
+    "reason": "Negative-path validation target",
+    "expected_behavior": "Explicit error + recovery guidance"
+  },
+  {
+    "scenario_id": "SCN-0012",
+    "platform": "telegram",
+    "context": "telegram_group",
+    "role": "rate_limited_user",
+    "error_type": "rate_limit",
+    "reason": "Negative-path validation target",
+    "expected_behavior": "Explicit error + recovery guidance"
+  },
+  {
+    "scenario_id": "SCN-0017",
+    "platform": "telegram",
+    "context": "telegram_channel",
+    "role": "invalid_user",
+    "error_type": "invalid_user_state",
+    "reason": "Negative-path validation target",
+    "expected_behavior": "Explicit error + recovery guidance"
+  },
+  {
+    "scenario_id": "SCN-0018",
+    "platform": "telegram",
+    "context": "telegram_channel",
+    "role": "rate_limited_user",
+    "error_type": "rate_limit",
+    "reason": "Negative-path validation target",
+    "expected_behavior": "Explicit error + recovery guidance"
+  },
+  {
+    "scenario_id": "SCN-0023",
+    "platform": "discord",
+    "context": "discord_dm",
+    "role": "invalid_user",
+    "error_type": "invalid_user_state",
+    "reason": "Negative-path validation target",
+    "expected_behavior": "Explicit error + recovery guidance"
+  },
+  {
+    "scenario_id": "SCN-0024",
+    "platform": "discord",
+    "context": "discord_dm",
+    "role": "rate_limited_user",
+    "error_type": "rate_limit",
+    "reason": "Negative-path validation target",
+    "expected_behavior": "Explicit error + recovery guidance"
+  },
+  {
+    "scenario_id": "SCN-0029",
+    "platform": "discord",
+    "context": "discord_server",
+    "role": "invalid_user",
+    "error_type": "invalid_user_state",
+    "reason": "Negative-path validation target",
+    "expected_behavior": "Explicit error + recovery guidance"
+  },
+  {
+    "scenario_id": "SCN-0030",
+    "platform": "discord",
+    "context": "discord_server",
+    "role": "rate_limited_user",
+    "error_type": "rate_limit",
+    "reason": "Negative-path validation target",
+    "expected_behavior": "Explicit error + recovery guidance"
+  }
+]
