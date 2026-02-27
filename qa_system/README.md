@@ -1,49 +1,65 @@
-# AI QA Agent Framework (Telegram + Discord)
+# RuneWager QA System (Telegram-First)
 
-This folder contains a deterministic, reproducible QA framework scaffold that covers:
+This package implements a lightweight VPS executor + external AI brain architecture.
 
-1. Official bot-account architecture (Telegram Bot API + Discord bot integrations)
-2. Test runner architecture
-3. Scenario generator
-4. Command matrix generation from the codebase
-5. Button/callback matrix generation from the codebase
-6. Onboarding flow map
-7. Admin flow map
-8. Error flow map
-9. Logs + reports (JSON + Markdown)
-10. AI provider profile output (`ai_reasoning_config.json`)
+## Key guarantees
 
-## Quick start
+- `TELEGRAM_DEFAULT = true` and Telegram is the only active target.
+- Discord is preserved as inactive placeholders for future expansion.
+- No AI models run on the VPS executor.
+- QA executor is independent from `runewager.service`.
+
+## Components
+
+1. **VPS EXECUTOR** (`qa_system.executor`)
+   - Pyrogram userbot runner.
+   - JSON queue protocol for actions.
+   - Handles `/qa_on`, `/qa_off`, `/qa_mode admin`, `/qa_mode user`.
+   - Writes structured logs under:
+     - `/var/www/html/Runewager/qa/logs/YYYY-MM-DD/action_log.json`
+     - `/var/www/html/Runewager/qa/logs/YYYY-MM-DD/message_log.json`
+     - `/var/www/html/Runewager/qa/logs/YYYY-MM-DD/error_log.json`
+
+2. **EXTERNAL AI BRAIN** (`qa_system.brain_sync` protocol)
+   - Runs on Android 15 + Termux or free cloud AI.
+   - Pulls logs and state from the VPS.
+   - Sends back JSON action list.
+
+3. **Artifact generator** (`qa_system.main`)
+   - Generates command/button matrices and `final_report.json` scaffold.
+
+## CLI
+
+Generate deterministic QA artifacts:
 
 ```bash
-python -m qa_system.main --repo-root . --output qa_artifacts --dry-run --ai-provider openai
+python -m qa_system.main --repo-root . --output qa_artifacts --dry-run --ai-provider termux_qwen
 ```
 
-`--ai-provider` options:
-- `openai`
-- `anthropic`
-- `groq`
-- `openrouter`
+Run executor service:
 
-Use `--ai-model` to override defaults.
+```bash
+python -m qa_system.executor --service --root /var/www/html/Runewager
+```
 
-## Output artifacts
+Queue an action:
 
-- `command_matrix.csv`
-- `button_callback_matrix.csv`
-- `onboarding_flow_map.md`
-- `admin_flow_map.md`
-- `error_flow_map.md`
-- `test_log.json`
-- `failure_log.json`
-- `summary_report.md`
-- `improvements.md`
-- `run_meta.json`
-- `ai_reasoning_config.json`
+```bash
+python -m qa_system.executor --queue-action send_command --payload '{"text":"/qa_on"}'
+```
 
-## Notes
+Export latest logs for AI brain:
 
-- The framework intentionally uses deterministic IDs and ordered scenario generation.
-- It does **not** require live Telegram/Discord credentials in `--dry-run` mode.
-- Connector stubs are included for integrating official bot-account drivers.
-- If user-account automation is explored, treat it as experimental only in isolated test accounts due to platform policy risk.
+```bash
+python -m qa_system.brain_sync --root /var/www/html/Runewager --export qa_artifacts/brain_export.json
+```
+
+Queue AI brain generated actions:
+
+```bash
+python -m qa_system.brain_sync --root /var/www/html/Runewager --queue ai_actions.json
+```
+
+## Systemd
+
+Install `deploy/runewager-qa.service` as `runewager-qa.service` and set environment values in `/etc/runewager-qa.env`.

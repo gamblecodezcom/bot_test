@@ -1,25 +1,28 @@
 # bot_test
 
-Deterministic AI QA scaffolding for Telegram + Discord bot testing is available in `qa_system/`.
+Telegram-first QA automation scaffold for RuneWager is available in `qa_system/`.
 
-## Run artifact generator
-
-```bash
-python -m qa_system.main --repo-root . --output qa_artifacts --dry-run --ai-provider openai
-```
-
-Supported `--ai-provider` values: `openai`, `anthropic`, `groq`, `openrouter`.
-
-## Guided selfbot setup (interactive)
-
-A guided setup script is included to:
-
-1. Ask for Telegram login details (phone, 2FA password, OTP),
-2. Ask for AI provider and API key,
-3. Install dependencies,
-4. Run one-time Telegram login,
-5. Install + enable a `systemd` service.
+## Generate artifacts
 
 ```bash
-bash scripts/setup_selfbot.sh
+python -m qa_system.main --repo-root . --output qa_artifacts --dry-run --ai-provider termux_qwen
 ```
+
+## Run executor service
+
+```bash
+python -m qa_system.executor --service --root /var/www/html/Runewager
+```
+
+## Sync logs for external AI brain
+
+```bash
+python -m qa_system.brain_sync --root /var/www/html/Runewager --export qa_artifacts/brain_export.json
+```
+
+Supported external AI options:
+- Termux + Qwen 1.5B
+- Termux + DeepSeek R1 1.5B
+- DeepSeek Chat (free cloud)
+- Gemini Free
+- ChatGPT Free

@@ -1,0 +1,14 @@
+{
+  "summary": {
+    "scenarios_generated": 18,
+    "commands_covered": 7,
+    "buttons_covered": 5,
+    "telegram_default": true,
+    "discord_active": false
+  },
+  "bugs_found": [],
+  "broken_flows": [],
+  "missing_error_messages": [],
+  "ux_issues": [],
+  "recommended_fixes": []
+}

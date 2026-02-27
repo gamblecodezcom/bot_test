@@ -1,14 +1,14 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from typing import Literal
 
 Context = Literal[
     "telegram_dm",
     "telegram_group",
     "telegram_channel",
-    "discord_dm",
-    "discord_server",
+    "discord_dm_inactive",
+    "discord_server_inactive",
 ]
 
 Role = Literal["user", "admin", "new_user", "returning_user", "invalid_user", "rate_limited_user"]
@@ -43,6 +43,7 @@ class Scenario:
     role: Role
     steps: tuple[str, ...]
     expected: tuple[str, ...]
+    active: bool = True
 
     def to_dict(self) -> dict:
         return asdict(self)
