@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Any
 
 from .models import Scenario
 
@@ -24,29 +25,15 @@ def _error_type_for_role(role: str) -> str:
 
 def write_logs(output_dir: Path, scenarios: list[Scenario], dry_run: bool) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
-
-    action_log = []
-    message_log = []
-    error_log = []
+    action_log: list[dict[str, Any]] = []
+    message_log: list[dict[str, Any]] = []
+    error_log: list[dict[str, Any]] = []
 
     for scn in scenarios:
         if not scn.active:
             continue
-        action_log.append(
-            {
-                "scenario_id": scn.scenario_id,
-                "platform": scn.platform,
-                "context": scn.context,
-                "role": scn.role,
-                "status": "simulated_pass" if dry_run else "pending_executor",
-            }
-        )
-        message_log.append(
-            {
-                "scenario_id": scn.scenario_id,
-                "messages": ["placeholder: connector response capture"],
-            }
-        )
+        action_log.append({"scenario_id": scn.scenario_id, "platform": scn.platform, "context": scn.context, "role": scn.role, "status": "simulated_pass" if dry_run else "pending_executor"})
+        message_log.append({"scenario_id": scn.scenario_id, "messages": ["placeholder: connector response capture"]})
         if scn.role in {"invalid_user", "rate_limited_user"}:
             error_log.append(
                 {
@@ -64,7 +51,7 @@ def write_logs(output_dir: Path, scenarios: list[Scenario], dry_run: bool) -> No
     _atomic_write_json(output_dir / "error_log.json", error_log)
 
 
-def write_summary(output_dir: Path, scenario_count: int, command_count: int, button_count: int) -> None:
+def write_summary(output_dir: Path, scenario_count: int, command_count: int, button_count: int, test_plan: dict[str, Any] | None = None) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     summary = {
         "summary": {
@@ -74,11 +61,16 @@ def write_summary(output_dir: Path, scenario_count: int, command_count: int, but
             "telegram_default": True,
             "discord_active": False,
         },
-        "bugs_found": [],
+        "test_plan": test_plan or {},
+        "bugs": [],
         "broken_flows": [],
         "missing_error_messages": [],
-        "ux_issues": [],
-        "recommended_fixes": [],
+        "missing_validations": [],
+        "incorrect_admin_gating": [],
+        "incorrect_menu_transitions": [],
+        "incorrect_callback_behavior": [],
+        "onboarding_issues": [],
+        "suggestions_for_improvement": [],
     }
     _atomic_write_json(output_dir / "final_report.json", summary)
 

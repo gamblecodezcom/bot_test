@@ -1,11 +1,32 @@
 {
   "ai_model": "qwen2.5-1.5b-instruct",
   "ai_provider": "termux_qwen",
+  "bot_name": "runewager",
   "buttons": 5,
-  "commands": 7,
+  "capabilities_loaded": [
+    "callbacks",
+    "commands",
+    "contexts",
+    "debug_metadata",
+    "eligibility_rules",
+    "error_messages",
+    "expected_failure_messages",
+    "expected_success_messages",
+    "menus",
+    "onboarding_steps",
+    "pending_actions",
+    "rate_limits"
+  ],
+  "commands": 14,
   "discord_active": false,
   "dry_run": true,
   "output": "qa_artifacts",
+  "repo_info": {
+    "branch": "main",
+    "name": "Runewager",
+    "qa_service": "runewager-qa.service",
+    "service": "runewager.service"
+  },
   "repo_root": ".",
   "scenarios": 20,
   "telegram_default": true
