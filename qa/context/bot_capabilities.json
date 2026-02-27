@@ -1,0 +1,17 @@
+{
+  "commands": {
+    "user": ["/start", "/help", "/qa_status"],
+    "admin": ["/qa_mode admin", "/qa_mode user"]
+  },
+  "callbacks": ["admin_menu", "profile", "next_page"],
+  "menus": ["main_menu", "admin_menu"],
+  "onboarding_steps": ["age_confirmation", "username_validation", "membership_checks"],
+  "pending_actions": ["awaiting_promo_input", "awaiting_deny_reason"],
+  "error_messages": ["ERR_RATE_LIMIT", "ERR_PERMISSION", "ERR_INVALID_CONTEXT"],
+  "eligibility_rules": ["age>=18", "joined_required_channels"],
+  "rate_limits": ["10_cmd_per_min"],
+  "contexts": ["telegram_dm", "telegram_group", "telegram_channel"],
+  "expected_success_messages": ["Success", "Done"],
+  "expected_failure_messages": ["Error", "Try again"],
+  "debug_metadata": ["menu_id", "callback_id", "pending_action", "error_code"]
+}

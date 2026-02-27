@@ -1,0 +1,6 @@
+{
+  "qa_enabled": false,
+  "mode": "user",
+  "telegram_default": true,
+  "selected_bot": "runewager"
+}

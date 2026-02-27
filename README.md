@@ -1,25 +1,33 @@
 # bot_test
 
-Deterministic AI QA scaffolding for Telegram + Discord bot testing is available in `qa_system/`.
+Telegram-first QA automation scaffold for RuneWager is available in `qa_system/`.
 
-## Run artifact generator
+## Universal multi-bot files
+
+- Bot registry: `qa/bots/bot_list.json`
+- Selected bot state: `qa/state/selected_bot.json`
+- Capabilities contract: `qa/context/bot_capabilities.json`
+- Repo metadata: `qa/context/repo_info.json`
+- Provider fallback state: `qa/state/provider_status.json`
+- Action queue template: `/qa/actions/<bot_name>/queue.json`
+- Log directory template: `/qa/logs/<bot_name>/YYYY-MM-DD/`
+
+## Generate artifacts (capability-aware)
 
 ```bash
-python -m qa_system.main --repo-root . --output qa_artifacts --dry-run --ai-provider openai
+python -m qa_system.main --repo-root . --output qa_artifacts --dry-run --bot-name runewager
 ```
 
-Supported `--ai-provider` values: `openai`, `anthropic`, `groq`, `openrouter`.
-
-## Guided selfbot setup (interactive)
-
-A guided setup script is included to:
-
-1. Ask for Telegram login details (phone, 2FA password, OTP),
-2. Ask for AI provider and API key,
-3. Install dependencies,
-4. Run one-time Telegram login,
-5. Install + enable a `systemd` service.
+## Run executor service
 
 ```bash
-bash scripts/setup_selfbot.sh
+python -m qa_system.executor --service --root /var/www/html/Runewager
+```
+
+## External AI sync + provider fallback
+
+```bash
+python -m qa_system.brain_sync --root /var/www/html/Runewager --bot runewager --export qa_artifacts/brain_export.json
+python -m qa_system.brain_sync --root /var/www/html/Runewager --pick-provider
+python -m qa_system.brain_sync --root /var/www/html/Runewager --provider-result deepseek:success
 ```

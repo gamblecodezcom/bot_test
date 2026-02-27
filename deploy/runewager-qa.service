@@ -1,0 +1,15 @@
+[Unit]
+Description=RuneWager QA Telegram Executor
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/var/www/html/Runewager
+EnvironmentFile=/etc/runewager-qa.env
+ExecStart=/var/www/html/Runewager/.venv/bin/python -m qa_system.executor --service --root /var/www/html/Runewager
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
