@@ -30,3 +30,4 @@ dotenv.*
 .DS_Store
 .vscode/
 .idea/
+_temp
