@@ -1,0 +1,64 @@
+{
+  "summary": {
+    "scenarios_generated": 18,
+    "commands_covered": 14,
+    "buttons_covered": 5,
+    "telegram_default": true,
+    "discord_active": false
+  },
+  "test_plan": {
+    "generated_at": "2026-02-27T01:48:26.727398+00:00",
+    "sections": {
+      "dm_tests": [
+        "telegram_dm"
+      ],
+      "group_tests": [
+        "telegram_group"
+      ],
+      "channel_tests": [
+        "telegram_channel"
+      ],
+      "admin_tests": [
+        "/qa_mode admin",
+        "/qa_mode user"
+      ],
+      "user_tests": [
+        "/start",
+        "/help",
+        "/qa_status"
+      ],
+      "onboarding_tests": [
+        "age_confirmation",
+        "username_validation",
+        "membership_checks"
+      ],
+      "callback_tests": [
+        "admin_menu",
+        "profile",
+        "next_page"
+      ],
+      "menu_tests": [
+        "main_menu",
+        "admin_menu"
+      ],
+      "error_tests": [
+        "ERR_RATE_LIMIT",
+        "ERR_PERMISSION",
+        "ERR_INVALID_CONTEXT"
+      ],
+      "pending_action_tests": [
+        "awaiting_promo_input",
+        "awaiting_deny_reason"
+      ]
+    }
+  },
+  "bugs": [],
+  "broken_flows": [],
+  "missing_error_messages": [],
+  "missing_validations": [],
+  "incorrect_admin_gating": [],
+  "incorrect_menu_transitions": [],
+  "incorrect_callback_behavior": [],
+  "onboarding_issues": [],
+  "suggestions_for_improvement": []
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Runewager",
+  "branch": "main",
+  "service": "runewager.service",
+  "qa_service": "runewager-qa.service"
+}

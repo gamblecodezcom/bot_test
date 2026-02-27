@@ -1,49 +1,91 @@
-# AI QA Agent Framework (Telegram + Discord)
+# RuneWager QA System (Telegram-First, Multi-Bot Ready)
 
-This folder contains a deterministic, reproducible QA framework scaffold that covers:
+This package implements a lightweight VPS executor + external AI brain architecture with a universal multi-bot design.
 
-1. Official bot-account architecture (Telegram Bot API + Discord bot integrations)
-2. Test runner architecture
-3. Scenario generator
-4. Command matrix generation from the codebase
-5. Button/callback matrix generation from the codebase
-6. Onboarding flow map
-7. Admin flow map
-8. Error flow map
-9. Logs + reports (JSON + Markdown)
-10. AI provider profile output (`ai_reasoning_config.json`)
+## Key guarantees
 
-## Quick start
+- `TELEGRAM_DEFAULT = true` and Telegram is the only active target.
+- Discord structures are preserved but inactive.
+- No AI models run on the VPS executor.
+- QA executor is independent from `runewager.service`.
+- Capability contract is loaded from `/qa/context/bot_capabilities.json` for each test cycle.
+
+## Multi-bot architecture
+
+- Bot registry: `/qa/bots/bot_list.json`
+- Bot selector command: `/qa/select_bot <bot_name>`
+- Universal action queue: `/qa/actions/<bot_name>/queue.json`
+- Universal logs: `/qa/logs/<bot_name>/YYYY-MM-DD/*.json`
+
+## Provider fallback architecture
+
+Provider state file: `/qa/state/provider_status.json`
+
+Fallback order and behavior:
+1. deepseek
+2. gemini
+3. chatgpt
+4. if all unavailable: wait 60s and retry
+5. every 10 minutes: cooldown reset + order restore
+
+Use `qa_system.brain_sync` to update provider status after each success/failure.
+
+## Components
+
+1. **VPS EXECUTOR** (`qa_system.executor`)
+   - Pyrogram userbot runner.
+   - Reads selected bot from registry/state.
+   - Handles `/qa_on`, `/qa_off`, `/qa_mode user|admin`, `/qa_status`, `/qa/select_bot <bot_name>`.
+   - Captures deterministic debug metadata in responses (menu/callback/pending/error identifiers).
+
+2. **EXTERNAL AI BRAIN SYNC** (`qa_system.brain_sync`)
+   - Exports logs + state + provider status bundle.
+   - Queues AI-decided actions back to per-bot queue.
+   - Applies provider fallback updates.
+
+3. **Artifact/Test planning generator** (`qa_system.main`)
+   - Loads `bot_capabilities.json` and `repo_info.json`.
+   - Produces test plan scaffolding and `final_report.json` categories.
+
+## CLI
+
+Generate deterministic QA artifacts with capabilities contract:
 
 ```bash
-python -m qa_system.main --repo-root . --output qa_artifacts --dry-run --ai-provider openai
+python -m qa_system.main --repo-root . --output qa_artifacts --dry-run --bot-name runewager
 ```
 
-`--ai-provider` options:
-- `openai`
-- `anthropic`
-- `groq`
-- `openrouter`
+Run executor service:
 
-Use `--ai-model` to override defaults.
+```bash
+python -m qa_system.executor --service --root /var/www/html/Runewager
+```
 
-## Output artifacts
+Select a bot and inspect state:
 
-- `command_matrix.csv`
-- `button_callback_matrix.csv`
-- `onboarding_flow_map.md`
-- `admin_flow_map.md`
-- `error_flow_map.md`
-- `test_log.json`
-- `failure_log.json`
-- `summary_report.md`
-- `improvements.md`
-- `run_meta.json`
-- `ai_reasoning_config.json`
+```bash
+python -m qa_system.executor --select-bot runewager --root /var/www/html/Runewager
+python -m qa_system.executor --state --root /var/www/html/Runewager
+```
 
-## Notes
+Export latest logs for AI brain:
 
-- The framework intentionally uses deterministic IDs and ordered scenario generation.
-- It does **not** require live Telegram/Discord credentials in `--dry-run` mode.
-- Connector stubs are included for integrating official bot-account drivers.
-- If user-account automation is explored, treat it as experimental only in isolated test accounts due to platform policy risk.
+```bash
+python -m qa_system.brain_sync --root /var/www/html/Runewager --bot runewager --export qa_artifacts/brain_export.json
+```
+
+Pick fallback provider:
+
+```bash
+python -m qa_system.brain_sync --root /var/www/html/Runewager --pick-provider
+```
+
+Apply provider result:
+
+```bash
+python -m qa_system.brain_sync --root /var/www/html/Runewager --provider-result deepseek:failure
+```
+
+## Systemd
+
+Install `deploy/runewager-qa.service` as `runewager-qa.service` and set environment values in `/etc/runewager-qa.env`.

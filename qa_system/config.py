@@ -3,6 +3,10 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
+TELEGRAM_DEFAULT = True
+DEFAULT_BOT_NAME = "runewager"
+DEFAULT_ROOT = Path("/var/www/html/Runewager")
+
 
 @dataclass(frozen=True)
 class QAConfig:

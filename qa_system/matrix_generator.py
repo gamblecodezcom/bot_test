@@ -18,19 +18,7 @@ _BUTTON_PATTERNS = [
     re.compile(r"InlineKeyboardButton\([^\)]*text\s*=\s*[\"']([^\"']+)[\"']"),
 ]
 
-_SKIP_DIRS = {
-    ".git",
-    "node_modules",
-    ".venv",
-    "venv",
-    "dist",
-    "build",
-    "qa_artifacts",
-    "__pycache__",
-    ".mypy_cache",
-    ".pytest_cache",
-    ".tox",
-}
+_SKIP_DIRS = {".git", "node_modules", ".venv", "venv", "dist", "build", "qa_artifacts", "__pycache__", ".mypy_cache", ".pytest_cache", ".tox"}
 _MAX_FILE_SIZE_BYTES = 1_000_000
 
 
@@ -58,9 +46,7 @@ def discover_commands(repo_root: Path) -> list[str]:
                 cmd = cmd.strip()
                 if cmd:
                     found.add(cmd if cmd.startswith("/") else f"/{cmd}")
-    if not found:
-        found.update({"/start", "/help", "/admin"})
-    return sorted(found)
+    return sorted(found or {"/start", "/help", "/qa_on", "/qa_off", "/qa_mode"})
 
 
 def discover_buttons(repo_root: Path) -> list[str]:
@@ -69,17 +55,15 @@ def discover_buttons(repo_root: Path) -> list[str]:
         text = file.read_text(encoding="utf-8", errors="ignore")
         for pattern in _BUTTON_PATTERNS:
             for match in pattern.findall(text):
-                token = match if isinstance(match, str) else match[0]
-                token = token.strip()
-                if token:
-                    found.add(token)
-    if not found:
-        found.update({"btn_onboarding_continue", "cb_admin_promo_on", "cb_admin_promo_off"})
-    return sorted(found)
+                value = match if isinstance(match, str) else match[0]
+                value = value.strip()
+                if value:
+                    found.add(value)
+    return sorted(found or {"profile", "admin_menu", "next_page", "confirm", "cancel"})
 
 
 def build_command_matrix(commands: list[str]) -> list[CommandCase]:
-    contexts: list[Context] = ["telegram_dm", "telegram_group", "telegram_channel", "discord_dm", "discord_server"]
+    contexts: list[Context] = ["telegram_dm", "telegram_group", "telegram_channel"]
     rows: list[CommandCase] = []
     for command in commands:
         for context in contexts:
@@ -97,7 +81,7 @@ def build_command_matrix(commands: list[str]) -> list[CommandCase]:
 
 
 def build_button_matrix(buttons: list[str]) -> list[ButtonCase]:
-    contexts: list[Context] = ["telegram_dm", "telegram_group", "telegram_channel", "discord_dm", "discord_server"]
+    contexts: list[Context] = ["telegram_dm", "telegram_group", "telegram_channel"]
     rows: list[ButtonCase] = []
     for button in buttons:
         for context in contexts:
@@ -129,15 +113,7 @@ def write_button_matrix(path: Path, rows: list[ButtonCase]) -> None:
     with path.open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(
             f,
-            fieldnames=[
-                "button_or_callback",
-                "context",
-                "success_path",
-                "failure_path",
-                "missing_permissions",
-                "missing_onboarding",
-                "rate_limit_behavior",
-            ],
+            fieldnames=["button_or_callback", "context", "success_path", "failure_path", "missing_permissions", "missing_onboarding", "rate_limit_behavior"],
         )
         writer.writeheader()
         for row in rows:
