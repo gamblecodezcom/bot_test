@@ -1,10 +1,12 @@
 {
-  "ai_model": "gpt-4.1-mini",
-  "ai_provider": "openai",
-  "buttons": 3,
-  "commands": 3,
+  "ai_model": "qwen2.5-1.5b-instruct",
+  "ai_provider": "termux_qwen",
+  "buttons": 5,
+  "commands": 7,
+  "discord_active": false,
   "dry_run": true,
   "output": "qa_artifacts",
   "repo_root": ".",
-  "scenarios": 30
+  "scenarios": 20,
+  "telegram_default": true
 }

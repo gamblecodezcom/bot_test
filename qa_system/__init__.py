@@ -1,1 +1,1 @@
-"""AI QA system scaffold for Telegram + Discord bot testing."""
+"""RuneWager Telegram-first QA executor and artifact toolkit."""

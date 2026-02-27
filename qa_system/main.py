@@ -4,27 +4,24 @@ import argparse
 import json
 from pathlib import Path
 
-from .config import QAConfig
+from .config import QAConfig, TELEGRAM_DEFAULT
 from .flows import write_admin_flow_map, write_error_flow_map, write_onboarding_flow_map
-from .matrix_generator import (
-    build_button_matrix,
-    build_command_matrix,
-    discover_buttons,
-    discover_commands,
-    write_button_matrix,
-    write_command_matrix,
-)
+from .matrix_generator import build_button_matrix, build_command_matrix, discover_buttons, discover_commands, write_button_matrix, write_command_matrix
 from .providers import resolve_provider
 from .reporter import write_improvements, write_logs, write_summary
 from .scenarios import generate_scenarios
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Generate AI QA artifacts for Telegram + Discord bot testing")
+    parser = argparse.ArgumentParser(description="Generate Telegram-first QA artifacts for RuneWager")
     parser.add_argument("--repo-root", default=".", help="Repository root to analyze")
     parser.add_argument("--output", default="qa_artifacts", help="Output directory for QA artifacts")
     parser.add_argument("--dry-run", action="store_true", help="Generate artifacts without executing platform connectors")
-    parser.add_argument("--ai-provider", default="openai", help="AI provider: openai|anthropic|groq|openrouter")
+    parser.add_argument(
+        "--ai-provider",
+        default="termux_qwen",
+        help="AI provider: termux_qwen|termux_deepseek_r1|deepseek_chat|gemini_free|chatgpt_free",
+    )
     parser.add_argument("--ai-model", default=None, help="Optional model override")
     return parser.parse_args()
 
@@ -45,18 +42,15 @@ def _atomic_write_json(path: Path, payload: object) -> None:
     tmp.replace(path)
 
 
-def run(config: QAConfig, ai_provider: str = "openai", ai_model: str | None = None) -> dict:
+def run(config: QAConfig, ai_provider: str = "termux_qwen", ai_model: str | None = None) -> dict:
     output = config.output_dir
     output.mkdir(parents=True, exist_ok=True)
 
     commands = sorted(discover_commands(config.repo_root))
     buttons = sorted(discover_buttons(config.repo_root))
 
-    command_rows = build_command_matrix(commands)
-    button_rows = build_button_matrix(buttons)
-
-    write_command_matrix(output / "command_matrix.csv", command_rows)
-    write_button_matrix(output / "button_callback_matrix.csv", button_rows)
+    write_command_matrix(output / "command_matrix.csv", build_command_matrix(commands))
+    write_button_matrix(output / "button_callback_matrix.csv", build_button_matrix(buttons))
 
     write_onboarding_flow_map(output / "onboarding_flow_map.md")
     write_admin_flow_map(output / "admin_flow_map.md")
@@ -64,7 +58,7 @@ def run(config: QAConfig, ai_provider: str = "openai", ai_model: str | None = No
 
     scenarios = generate_scenarios()
     write_logs(output, scenarios, dry_run=config.dry_run)
-    write_summary(output, len(scenarios), len(commands), len(buttons))
+    write_summary(output, len([s for s in scenarios if s.active]), len(commands), len(buttons))
     write_improvements(output)
 
     provider_cfg = resolve_provider(ai_provider, ai_model)
@@ -74,6 +68,8 @@ def run(config: QAConfig, ai_provider: str = "openai", ai_model: str | None = No
             "provider": provider_cfg.provider,
             "model": provider_cfg.model,
             "api_key_env": provider_cfg.api_key_env,
+            "execution_location": provider_cfg.execution_location,
+            "runs_on_vps": False,
         },
     )
 
@@ -86,6 +82,8 @@ def run(config: QAConfig, ai_provider: str = "openai", ai_model: str | None = No
         "scenarios": len(scenarios),
         "ai_provider": provider_cfg.provider,
         "ai_model": provider_cfg.model,
+        "telegram_default": TELEGRAM_DEFAULT,
+        "discord_active": False,
     }
     _atomic_write_json(output / "run_meta.json", meta)
     return meta

@@ -3,6 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
+TELEGRAM_DEFAULT = True
+
 
 @dataclass(frozen=True)
 class QAConfig:

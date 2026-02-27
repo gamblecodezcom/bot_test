@@ -1,0 +1,25 @@
+{
+  "version": "1.0",
+  "telegram_default": true,
+  "actions": [
+    {
+      "type": "send_command",
+      "payload": {
+        "text": "/qa_on"
+      }
+    },
+    {
+      "type": "set_mode",
+      "payload": {
+        "mode": "admin"
+      }
+    },
+    {
+      "type": "press_callback",
+      "payload": {
+        "message_id": 123,
+        "callback_data": "admin_menu"
+      }
+    }
+  ]
+}
