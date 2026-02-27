@@ -31,3 +31,10 @@ python -m qa_system.brain_sync --root /var/www/html/Runewager --bot runewager --
 python -m qa_system.brain_sync --root /var/www/html/Runewager --pick-provider
 python -m qa_system.brain_sync --root /var/www/html/Runewager --provider-result deepseek:success
 ```
+
+Supported external AI options:
+- Termux + Qwen 1.5B
+- Termux + DeepSeek R1 1.5B
+- DeepSeek Chat (free cloud)
+- Gemini Free
+- ChatGPT Free
