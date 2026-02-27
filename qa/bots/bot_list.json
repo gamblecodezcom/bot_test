@@ -1,0 +1,9 @@
+{
+  "runewager": {
+    "bot_username": "RunewagerBot",
+    "repo_path": "/var/www/html/Runewager",
+    "capabilities_path": "/var/www/html/Runewager/qa/context/bot_capabilities.json",
+    "md_path": "/var/www/html/Runewager/RUNEWAGER_FUNCTIONALITY_MAP.md",
+    "repo_info_path": "/var/www/html/Runewager/qa/context/repo_info.json"
+  }
+}

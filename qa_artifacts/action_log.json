@@ -1,0 +1,162 @@
+[
+  {
+    "scenario_id": "SCN-0001",
+    "platform": "telegram",
+    "context": "telegram_dm",
+    "role": "new_user",
+    "status": "simulated_pass",
+    "skipped_reason": null
+  },
+  {
+    "scenario_id": "SCN-0002",
+    "platform": "telegram",
+    "context": "telegram_dm",
+    "role": "returning_user",
+    "status": "simulated_pass",
+    "skipped_reason": null
+  },
+  {
+    "scenario_id": "SCN-0003",
+    "platform": "telegram",
+    "context": "telegram_dm",
+    "role": "user",
+    "status": "simulated_pass",
+    "skipped_reason": null
+  },
+  {
+    "scenario_id": "SCN-0004",
+    "platform": "telegram",
+    "context": "telegram_dm",
+    "role": "admin",
+    "status": "simulated_pass",
+    "skipped_reason": null
+  },
+  {
+    "scenario_id": "SCN-0005",
+    "platform": "telegram",
+    "context": "telegram_dm",
+    "role": "invalid_user",
+    "status": "simulated_pass",
+    "skipped_reason": null
+  },
+  {
+    "scenario_id": "SCN-0006",
+    "platform": "telegram",
+    "context": "telegram_dm",
+    "role": "rate_limited_user",
+    "status": "simulated_pass",
+    "skipped_reason": null
+  },
+  {
+    "scenario_id": "SCN-0007",
+    "platform": "telegram",
+    "context": "telegram_group",
+    "role": "new_user",
+    "status": "simulated_pass",
+    "skipped_reason": null
+  },
+  {
+    "scenario_id": "SCN-0008",
+    "platform": "telegram",
+    "context": "telegram_group",
+    "role": "returning_user",
+    "status": "simulated_pass",
+    "skipped_reason": null
+  },
+  {
+    "scenario_id": "SCN-0009",
+    "platform": "telegram",
+    "context": "telegram_group",
+    "role": "user",
+    "status": "simulated_pass",
+    "skipped_reason": null
+  },
+  {
+    "scenario_id": "SCN-0010",
+    "platform": "telegram",
+    "context": "telegram_group",
+    "role": "admin",
+    "status": "simulated_pass",
+    "skipped_reason": null
+  },
+  {
+    "scenario_id": "SCN-0011",
+    "platform": "telegram",
+    "context": "telegram_group",
+    "role": "invalid_user",
+    "status": "simulated_pass",
+    "skipped_reason": null
+  },
+  {
+    "scenario_id": "SCN-0012",
+    "platform": "telegram",
+    "context": "telegram_group",
+    "role": "rate_limited_user",
+    "status": "simulated_pass",
+    "skipped_reason": null
+  },
+  {
+    "scenario_id": "SCN-0013",
+    "platform": "telegram",
+    "context": "telegram_channel",
+    "role": "new_user",
+    "status": "simulated_pass",
+    "skipped_reason": null
+  },
+  {
+    "scenario_id": "SCN-0014",
+    "platform": "telegram",
+    "context": "telegram_channel",
+    "role": "returning_user",
+    "status": "simulated_pass",
+    "skipped_reason": null
+  },
+  {
+    "scenario_id": "SCN-0015",
+    "platform": "telegram",
+    "context": "telegram_channel",
+    "role": "user",
+    "status": "simulated_pass",
+    "skipped_reason": null
+  },
+  {
+    "scenario_id": "SCN-0016",
+    "platform": "telegram",
+    "context": "telegram_channel",
+    "role": "admin",
+    "status": "simulated_pass",
+    "skipped_reason": null
+  },
+  {
+    "scenario_id": "SCN-0017",
+    "platform": "telegram",
+    "context": "telegram_channel",
+    "role": "invalid_user",
+    "status": "simulated_pass",
+    "skipped_reason": null
+  },
+  {
+    "scenario_id": "SCN-0018",
+    "platform": "telegram",
+    "context": "telegram_channel",
+    "role": "rate_limited_user",
+    "status": "simulated_pass",
+    "skipped_reason": null
+  },
+  {
+    "scenario_id": "SCN-0019",
+    "platform": "discord",
+    "context": "discord_dm",
+    "role": "user",
+    "status": "skipped_inactive",
+    "skipped_reason": "discord_disabled_telegram_first"
+  },
+  {
+    "scenario_id": "SCN-0020",
+    "platform": "discord",
+    "context": "discord_server",
+    "role": "user",
+    "status": "skipped_inactive",
+    "skipped_reason": "discord_disabled_telegram_first"
+  }
+]

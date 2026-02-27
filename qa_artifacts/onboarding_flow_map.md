@@ -1,13 +1,12 @@
-# Onboarding Flow Map (Telegram + Discord)
+# Onboarding Flow Map (Telegram-First)
 
 ## New User
 1. `/start` or first interaction.
 2. Age confirmation.
-3. Username/linking validation.
-4. Discord link step (if originated on Telegram) / Telegram link step (if originated on Discord).
-5. Channel + group/server membership checks.
-6. WebApp/profile initialization.
-7. Missing-step recovery checks.
+3. Username/profile validation.
+4. Required channel/group membership checks.
+5. Profile initialization.
+6. Missing-step recovery checks.
 
 ## Returning User
 1. Detect existing profile.
@@ -16,7 +15,8 @@
 
 ## Invalid User Paths
 - Missing username.
-- Missing linked account.
 - Expired/invalid deep link.
 - Wrong context command execution.
 - Incomplete required join actions.
+
+> Discord flows are preserved but inactive while `TELEGRAM_DEFAULT = true`.

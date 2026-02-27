@@ -1,0 +1,29 @@
+{
+  "version": "2.0",
+  "telegram_default": true,
+  "queue_path_template": "/qa/actions/<bot_name>/queue.json",
+  "actions": [
+    {
+      "type": "send_command",
+      "bot_name": "runewager",
+      "payload": {
+        "text": "/qa_on"
+      }
+    },
+    {
+      "type": "send_command",
+      "bot_name": "runewager",
+      "payload": {
+        "text": "/qa_mode admin"
+      }
+    },
+    {
+      "type": "press_callback",
+      "bot_name": "runewager",
+      "payload": {
+        "message_id": 123,
+        "callback_data": "admin_menu"
+      }
+    }
+  ]
+}
